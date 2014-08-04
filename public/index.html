@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang='en'>
+
+<head>
+	<title>Doodle</title>
+	<link rel='stylesheet' href='/stylesheets/style.css'></link>
+</head>
+
+<body>
+<div id='content'>
+
+	<div id='room'></div>
+	<div id='room-list'></div>
+	<canvas id='canvas' width="300" height="300"></canvas>
+	<div id='messages'></div>
+
+	<form id='send-form'>
+		<input id='send-message' />
+		<input id='send-button' type='submit' value='Send' />
+		<input id='refresh-canvas' type='submit' value='Refresh' />
+
+		<div id='help'>
+			Doodle commands:
+			<ul>
+				<li>Change nickname: <code>/nick [username]</code></li>
+				<li>Join/create channel: <code>/join [room name]</code></li>
+			</ul>
+		</div>
+	</form>
+</div>
+
+<script src='/socket.io/socket.io.js' type="text/javascript"></script>
+<script src='http://code.jquery.com/jquery-1.8.0.min.js' type="text/javascript"></script>
+<script src='/javascripts/chat.js' type="text/javascript"></script>
+<script src='/javascripts/canvas.js' type="text/javascript"></script>
+<script src='/javascripts/chat_ui.js' type="text/javascript"></script>
+
+</body>
+
+</html>
