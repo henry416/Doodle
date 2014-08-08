@@ -8,8 +8,6 @@ var Canvas = function(socket) {
 
 Canvas.prototype.draw = function(evt, room) {
 	var mousePos = this.getMousePos(this.canvas, evt);
-	//var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-	//$('#messages').append(divSystemContentElement(message));
 
 	this.socket.emit('draw', {
 		x: mousePos.x,
@@ -17,6 +15,9 @@ Canvas.prototype.draw = function(evt, room) {
 		color: '#FF0000',
 		room: room
 	});
+
+	this.context.fillStyle = '#FF0000';
+	this.context.fillRect(mousePos.x, mousePos.y, 1, 1);
 };
 
 Canvas.prototype.getMousePos = function(canvas, evt) {

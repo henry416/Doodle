@@ -73,51 +73,57 @@ $(document).ready(function() {
 		});
 	});
 
+	socket.on('draw', function(drawData) {
+		//$('#messages').append(divSystemContentElement("Draw at " + drawData.x + ", " + drawData.y));
+		canvasApp.context.fillStyle = drawData.color;
+		canvasApp.context.fillRect(drawData.x, drawData.y, 1, 1);
+	});
+
+	socket.on('syncCanvas', function(imageData) {
+		//canvasApp.context.drawImage(imageData.data, 0, 0);
+		canvasApp.context.clearRect(0, 0, 300, 300);
+		var imageObj = new Image();
+		imageObj.onload = function() {
+			canvasApp.context.drawImage(this, 0,0);
+		};
+		imageObj.src = imageData.data;
+	});
+
 	setInterval(function() {
 		socket.emit('rooms');
 	}, 1000);
 
 	$('#send-message').focus();
 	
-	$('#send-form').submit(function() {
+	$('#send-button').click(function() {
 		processUserInput(chatApp, socket);
 		return false;
 	});
 
-	/*$('#canvas').on('mousedown mouseup mouseleave', function mouseState(evt) {
-		if (evt.type == "mousedown") {
-			//$('#messages').append(divSystemContentElement('Mouse hold on'));
-			// draw pixel to node
-			canvasApp.draw(evt, $('#room').text());
+	$('#sync-canvas').click(function() {
+		socket.emit('getImage', {
+			room: $('#room').text()
+		})
+		return false;
+	});
 
+	$('#canvas').on('mousedown mouseup mouseleave', function mouseState(evt) {
+		if (evt.type == "mousedown") {
+			// mouse is held down on the canvas
+			canvasApp.draw(evt, $('#room').text());
 			canvasApp.mousedown = true;
 		}
 		else if (evt.type == "mouseup" || evt.type == "mouseleave") {
+			// mouse leaves the canvas or is released
 			canvasApp.mousedown = false;
-			//$('#messages').append(divSystemContentElement('Mouse hold off'));
 		}
 	});
 
 	$('#canvas').on('mousemove', function mouseState(evt) {
 		if (canvasApp.mousedown == true) {
+			// mouse being held down on the canvas and being dragged
 			canvasApp.draw(evt, $('#room').text());
 		}
-	});*/
-
-	$('#canvas').on('mousedown', function mouseState(evt) {
-		canvasApp.draw(evt, $('#room').text());
 	});
-
-	socket.on('draw', function(drawData) {
-		$('#messages').append(divSystemContentElement("Draw at " + drawData.x + ", " + drawData.y));
-		canvasApp.context.fillStyle = drawData.color;
-		canvasApp.context.fillRect(drawData.x, drawData.y, 1, 1);
-		//canvasApp.context.fillRect(0, 0, 100, 100);
-	});
-
 
 });
-
-document.getElementById('refresh-canvas').onclick = function() {
-	alert("refresh the canvas placeholder");
-};
