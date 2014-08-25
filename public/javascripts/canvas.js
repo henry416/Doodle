@@ -22,8 +22,16 @@ Canvas.prototype.draw = function(evt, room) {
 
 Canvas.prototype.getMousePos = function(canvas, evt) {
 	var rect = canvas.getBoundingClientRect();
+	var xval = evt.clientX - rect.left;
+	var yval = evt.clientY - rect.top;
+
+	if (xval >= 300) xval = 299;
+	if (xval < 0) xval = 0;
+	if (yval >= 300) yval = 299;
+	if (yval < 0) yval = 0;
+	
 	return {
-		x: evt.clientX - rect.left,
-		y: evt.clientY - rect.top
+		x: xval,
+		y: yval
 	};
 };
